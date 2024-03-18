@@ -26,3 +26,15 @@
   - Execution Engine:
       - Remote Execution
         
+## Bug Report:
+    - Bug 1: Test 2 is failing new transcations are not able to read the latest key, 
+             as they are searching for key+readTS, where readTS for new transaction will
+             alwasy be greater. For ex t1 commits key as key 1, but t2 will look for
+             key 2.
+
+             Fix:
+                add another search function which will fetch the latest key instead of the\
+                exact match.
+
+
+ 
