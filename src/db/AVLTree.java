@@ -153,19 +153,31 @@ public class AVLTree {
      */
     private AVLNode search(AVLNode avlNode, String key) {
         AVLNode found = null;
-        while ((avlNode != null) && (found==null)) {
-            String rval = avlNode.key;
-            if (key.compareTo(rval) < 0)
-                avlNode = avlNode.left;
-            else if (key.compareTo(rval) >0)
-                avlNode = avlNode.right;
-            else {
-                found = avlNode;
-                break;
-            }
-            found = search(avlNode, key);
+        if(avlNode == null){
+            return null;
         }
-        return found;
+        String rval = avlNode.key;
+        if (key.compareTo(rval) < 0){
+            return search(avlNode.left, key);
+        }
+        else if (key.compareTo(rval) > 0){
+            AVLNode rightNode = search(avlNode.right, key);
+            if(rightNode == null){
+                String parentKeyWithoutTS = rval.split(" ")[0];
+                String searchedKeyWithoutTS = key.split(" ")[0];
+                if(parentKeyWithoutTS.equals(searchedKeyWithoutTS)) {
+                    return avlNode;
+                }
+                else{
+                    return null;
+                }
+            }
+            return rightNode;
+        }
+        else{
+            return avlNode;
+        }
+
     }
 
     /**

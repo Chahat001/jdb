@@ -17,7 +17,24 @@ public class Main {
 
         // Test 2 : New Transcation should read the latest write
         Transaction txn2 = new Transaction(inMemoryDB);
-        assert txn2.read("key1").equals("value1");
+        txn2.write("key1", "value2");
         txn2.commit();
+
+        Transaction txn3 = new Transaction(inMemoryDB);
+        txn3.write("key1", "value3");
+        txn3.commit();
+
+        Transaction txn4 = new Transaction(inMemoryDB);
+        txn4.write("key1", "value4");
+        txn4.commit();
+
+        Transaction txn5 = new Transaction(inMemoryDB);
+        assert txn5.read("key1").equals("value4");
+        txn5.commit();
+
+        // Test 3: Since isolation level is Serializable. Same Transaction should read only its data
+        assert txn3.read("key1").equals("value3");
+
+
     }
 }
